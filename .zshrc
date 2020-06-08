@@ -95,13 +95,37 @@ plugins=(
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias pacaur="pacaur --color=auto"
+alias tmux="tmux attach || tmux"
+alias nn="ninja"
+
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
 fi
-eval `dircolors ~/Git/dircolors-solarized/dircolors.256dark`
+
+eval `dircolors ~/dotfiles/dircolors.256dark`
+
 source $ZSH/oh-my-zsh.sh
 export MC_SKIN=~/.mc/lib/solarized.ini
 export LC_ALL=en_US.UTF-8
 export DISPLAY=localhost:0.0
 export GPG_TTY=$(tty)
+#export GNUPGHOME=/mnt/i/gnupg
+export EDITOR=vim
+
+redo_ssh() {
+    SSH_AUTH_KEEAGENT_SOCK=/mnt/c/Users/Rubikoid/ag_msys
+    SSH_AUTH_KEEAGENT_PORT=`sed -r 's/!<socket >([0-9]*\b).*/\1/' ${SSH_AUTH_KEEAGENT_SOCK}`
+    SSH_AUTH_TMPDIR="/tmp" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
+    export SSH_AUTH_SOCK="${SSH_AUTH_TMPDIR}/agent"
+    if [ ! -e "$SSH_AUTH_SOCK" ]; then
+        echo "ssh socket ($SSH_AUTH_SOCK) not found"
+        socat UNIX-LISTEN:${SSH_AUTH_SOCK},mode=0600,fork,shut-down TCP:127.0.0.1:${SSH_AUTH_KEEAGENT_PORT},connect-timeout=2 >/dev/null 2>&1 &
+    fi
+    echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
+}
+
+redo_ssh
+
+source ~/.zshrc_comp_dep
