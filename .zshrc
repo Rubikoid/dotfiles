@@ -125,7 +125,6 @@ redo_ssh() {
     fi
     echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
 }
-
-redo_ssh
+#redo_ssh
 
 source ~/.zshrc_comp_dep
