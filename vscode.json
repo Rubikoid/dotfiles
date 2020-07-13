@@ -1,0 +1,204 @@
+{
+    "git.autofetch": true,
+    "editor.detectIndentation": false,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=150",
+        "--ignore=F401,E402,E122,F403,E226,F405,F841,E501,E265,E203,E231", // e203 and e231 is errors with := operator
+    ],
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_flask"
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=150"
+    ],
+    // "python.formatting.provider": "black",
+    "C_Cpp.default.cStandard": "c11",
+    "C_Cpp.default.cppStandard": "c++11",
+    // "C_Cpp.clang_format_path": "D:\\Code\\LLVM\\bin\\clang-format.exe",
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0 }", // AlignConsecutiveMacros : true
+    // "python.workspaceSymbols.ctagsPath": "D:\\Code\\ctags\\ctags.exe",
+    "editor.suggestSelection": "first",
+    "python.jediEnabled": true,
+    "window.zoomLevel": 0,
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex",
+            "tools": [
+                "xelatex",
+                "bibtex",
+                "xelatex"
+            ]
+        },
+        {
+            "name": "xelatex_normal",
+            "tools": [
+                "xelatex"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "tools": [
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "latexmk 🔃",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "pdflatex ➞ bibtex ➞ pdflatex × 2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        },
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "bash",
+            "args": [
+                "-c",
+                "latexmk",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir='%OUTDIR%'",
+                "'%DOC%'"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pdflatex",
+            "command": "bash",
+            "args": [
+                "-c",
+                "pdflatex -synctex=1 -interaction=nonstopmode -file-line-error %DOCFILE%",
+            ],
+            "env": {}
+        },
+        {
+            "name": "xelatex",
+            "command": "bash",
+            "args": [
+                "-c",
+                "xelatex -synctex=1 -interaction=nonstopmode -file-line-error %DOCFILE%",
+            ],
+            "env": {}
+        },
+        {
+            "name": "bibtex",
+            "command": "bash",
+            "args": [
+                "-c",
+                "bibtex %DOCFILE%",
+            ],
+            "env": {}
+        },
+        {
+            "name": "bibtex_w",
+            "command": "bash",
+            "args": [
+                "-c",
+                "bibtex `wslpath -a \"%DOCFILE%\"` `wslpath -a \"%DOC%\"`",
+            ],
+            "env": {}
+        }
+    ],
+    /*"latex-workshop.latexindent.args": [
+        "-c",
+        "-c `wslpath -a \"%DIR%/\"` `wslpath -a \"%TMPFILE%\"` -y=defaultIndent: '%INDENT%'",
+    ],
+    "latex-workshop.latexindent.path": "bash",*/
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.latex.recipe.default": "lastUsed",
+    "latex-workshop.latex.build.forceRecipeUsage": true,
+    "telemetry.enableTelemetry": false,
+    "gitlens.advanced.telemetry.enabled": false,
+    "cSpell.language": ",ru",
+    "cSpell.userWords": [
+        "Connections",
+        "Figure",
+        "Markov",
+        "RELOAD",
+        "Scatter",
+        "abspath",
+        "annotations",
+        "closest",
+        "color",
+        "colorbar",
+        "colorscale",
+        "edge",
+        "edges",
+        "flask",
+        "fruchterman",
+        "graph",
+        "hovermode",
+        "layout",
+        "made",
+        "margin",
+        "marker",
+        "markers",
+        "networkx",
+        "nice",
+        "nodes",
+        "objs",
+        "plotly",
+        "punctuation",
+        "reingold",
+        "replace",
+        "seed",
+        "self",
+        "showarrow",
+        "showlegend",
+        "showticklabels",
+        "splitted",
+        "tasks",
+        "thickness",
+        "titlefont",
+        "weights",
+        "xanchor",
+        "xaxis",
+        "xref",
+        "yaxis",
+        "yref",
+        "zeroline"
+    ],
+    "workbench.startupEditor": "welcomePage",
+    // "docker.host": "127.0.0.1:2375",
+    "extensions.ignoreRecommendations": true,
+    "gitlens.views.repositories.files.layout": "tree",
+    "files.associations": {
+        "*.nasm": "asm-collection",
+        "*.jhtml": "jinja-html"
+    },
+    "asm-code-lens.enableCodeLenses": false,
+    "workbench.sideBar.location": "right",
+    "workbench.tree.indent": 20,
+    "remote.WSL.fileWatcher.polling": true,
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME",
+        "WTF"
+    ],
+    "diffEditor.ignoreTrimWhitespace": false,
+    "todo-tree.tree.showScanModeButton": false,
+    "workbench.activityBar.visible": true,
+    "java.requirements.JDK11Warning": false,
+    "java.semanticHighlighting.enabled": false,
+    "workbench.colorTheme": "Monokai Dimmed",
+    "discord.smallImage": "vim",
+    "python.languageServer": "Jedi",
+}
+
