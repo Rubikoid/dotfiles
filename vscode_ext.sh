@@ -1,3 +1,8 @@
+
+# code --list-extensions | xargs -L 1 echo code --install-extension
+
+# code --list-extensions | % { "code --install-extension $_" }
+
 code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension alefragnani.Bookmarks
 code --install-extension bmewburn.vscode-intelephense-client
