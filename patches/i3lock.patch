@@ -1,0 +1,36 @@
+diff --git a/Makefile b/Makefile
+index baeac74..c53b454 100644
+--- a/Makefile
++++ b/Makefile
+@@ -22,8 +22,8 @@ LIBS += -lxkbfile
+ FILES:=$(wildcard *.c)
+ FILES:=$(FILES:.c=.o)
+ 
+-VERSION:=$(shell git describe --tags --abbrev=0)
+-GIT_VERSION:="$(shell git describe --tags --always) ($(shell git log --pretty=format:%cd --date=short -n1))"
++VERSION:= "v1337"# $(shell git describe --tags --abbrev=0)
++GIT_VERSION:= "v1337-1337"# "$(shell git describe --tags --always) ($(shell git log --pretty=format:%cd --date=short -n1))"
+ CPPFLAGS += -DVERSION=\"${GIT_VERSION}\"
+ 
+ .PHONY: install clean uninstall
+@@ -44,6 +44,7 @@ install: all
+ 
+ uninstall:
+ 	rm -f $(DESTDIR)$(PREFIX)/bin/i3lock
++	rm -f $(DESTDIR)$(SYSCONFDIR)/pam.d/i3lock
+ 
+ dist: clean
+ 	[ ! -d i3lock-${VERSION} ] || rm -rf i3lock-${VERSION}
+diff --git a/unlock_indicator.c b/unlock_indicator.c
+index bbd0fd9..20e783f 100644
+--- a/unlock_indicator.c
++++ b/unlock_indicator.c
+@@ -43,7 +43,7 @@ extern bool debug_mode;
+ /* The current position in the input buffer. Useful to determine if any
+  * characters of the password have already been entered or not. 
+  */
+-int input_position;
++//int input_position;
+ 
+ /* The lock window. */
+ extern xcb_window_t win;
