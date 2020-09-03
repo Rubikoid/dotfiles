@@ -109,22 +109,49 @@ eval `dircolors ~/dotfiles/dircolors.256dark`
 source $ZSH/oh-my-zsh.sh
 export MC_SKIN=~/.mc/lib/solarized.ini
 export LC_ALL=en_US.UTF-8
-export DISPLAY=localhost:0.0
+export DISPLAY=:0.0
 export GPG_TTY=$(tty)
 #export GNUPGHOME=/mnt/i/gnupg
 export EDITOR=vim
+PATH=$PATH:~/go/bin
 
 redo_ssh() {
     SSH_AUTH_KEEAGENT_SOCK=/mnt/c/Users/Rubikoid/ag_msys
     SSH_AUTH_KEEAGENT_PORT=`sed -r 's/!<socket >([0-9]*\b).*/\1/' ${SSH_AUTH_KEEAGENT_SOCK}`
     SSH_AUTH_TMPDIR="/tmp" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
     export SSH_AUTH_SOCK="${SSH_AUTH_TMPDIR}/agent"
+    export DISPLAY=127.0.0.1:0.0
     if [ ! -e "$SSH_AUTH_SOCK" ]; then
         echo "ssh socket ($SSH_AUTH_SOCK) not found"
         socat UNIX-LISTEN:${SSH_AUTH_SOCK},mode=0600,fork,shut-down TCP:127.0.0.1:${SSH_AUTH_KEEAGENT_PORT},connect-timeout=2 >/dev/null 2>&1 &
     fi
     echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
 }
-#redo_ssh
+
+redo_ssh_wsl2() {
+    SSH_AUTH_KEEAGENT_SOCK=/mnt/c/Users/Rubikoid/ag_msys
+    SSH_AUTH_KEEAGENT_PORT=`sed -r 's/!<socket >([0-9]*\b).*/\1/' ${SSH_AUTH_KEEAGENT_SOCK}`
+    SSH_AUTH_TMPDIR="/tmp" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
+    export SSH_AUTH_SOCK="${SSH_AUTH_TMPDIR}/agent"
+    export REAL_WSL_ADDR=`netsh.exe interface ip show ipaddresses "vEthernet (WSL)" | head -n 2 - | tail -n 1 | awk '{ print $2; }'`
+    export DISPLAY=$REAL_WSL_ADDR:0.0
+    if [ ! -e "$SSH_AUTH_SOCK" ]; then
+        echo "ssh socket ($SSH_AUTH_SOCK) not found"
+        socat UNIX-LISTEN:${SSH_AUTH_SOCK},mode=0600,fork,shut-down TCP:$REAL_WSL_ADDR:${SSH_AUTH_KEEAGENT_PORT},connect-timeout=2 >/dev/null 2>&1 &
+    fi
+    echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
+}
+
+redo_ssh_wsl2_2() {
+    SSH_AUTH_TMPDIR="/tmp" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
+    export SSH_AUTH_SOCK="${SSH_AUTH_TMPDIR}/agent"
+    export REAL_WSL_ADDR=`netsh.exe interface ip show ipaddresses "vEthernet (WSL)" | head -n 2 - | tail -n 1 | awk '{ print $2; }'`
+    export DISPLAY=$REAL_WSL_ADDR:0.0
+    if [ ! -e "$SSH_AUTH_SOCK" ]; then
+        echo "ssh socket ($SSH_AUTH_SOCK) not found"
+        socat UNIX-LISTEN:${SSH_AUTH_SOCK},mode=0600,fork,shut-down EXEC:"/mnt/c/Users/Rubikoid/dsct/Soft/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork >/dev/null 2>&1 &
+    fi
+    echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
+}
 
 source ~/.zshrc_comp_dep
