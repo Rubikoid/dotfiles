@@ -98,6 +98,7 @@ plugins=(
 alias pacaur="pacaur --color=auto"
 alias tmux="tmux attach || tmux"
 alias nn="ninja"
+alias ch="cheat"
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
