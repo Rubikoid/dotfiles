@@ -1,0 +1,44 @@
+# To detach an already attached session (great if you are moving devices with different screen resolutions):
+	tmux attach -d 
+
+# Sessions
+	:new<CR>  new session
+	s  list sessions
+	$  name session
+
+# Windows (tabs)
+	c  create window
+	w  list windows
+	n  next window
+	p  previous window
+	f  find window
+	,  name window
+	&  kill window
+
+# Panels (splits)
+	%  vertical split
+	"  horizontal split
+
+	o  swap panes
+	q  show pane numbers
+	x  kill pane
+	+  break pane into window (e.g. to select text by mouse to copy)
+	-  restore pane from window
+	⍽  space - toggle between layouts
+	<prefix> q (Show pane numbers, when the numbers show up type the key to goto that pane)
+	<prefix> { (Move the current pane left)
+	<prefix> } (Move the current pane right)
+	<prefix> z toggle pane zoom
+
+# To start a shared session:
+	tmux -S /tmp/your_shared_session
+	chmod 777 /tmp/your_shared_session
+
+# To help screen (Q to quit):
+	Ctrl-b ?
+
+# To reload configuation file
+	Ctrl-b : source-file /path/to/file
+
+# To swap windows:
+	Ctrl-b :swap-window -s [0-9] -t [0-9]
