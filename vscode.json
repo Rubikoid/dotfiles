@@ -24,7 +24,6 @@
     "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0 }", // AlignConsecutiveMacros : true
     // "python.workspaceSymbols.ctagsPath": "D:\\Code\\ctags\\ctags.exe",
     "editor.suggestSelection": "first",
-    "python.jediEnabled": true,
     "window.zoomLevel": 0,
     "latex-workshop.latex.recipes": [
         {
@@ -199,6 +198,6 @@
     "java.semanticHighlighting.enabled": false,
     "workbench.colorTheme": "Monokai Dimmed",
     "discord.smallImage": "vim",
-    "python.languageServer": "Jedi",
+    "python.languageServer": "Pylance",
 }
 
