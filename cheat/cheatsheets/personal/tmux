@@ -14,6 +14,8 @@
 	f  find window
 	,  name window
 	&  kill window
+    C-k  clear history
+    C-Y  sync_panes
 
 # Panels (splits)
 	%  vertical split
@@ -38,6 +40,7 @@
 	Ctrl-b ?
 
 # To reload configuation file
+    r
 	Ctrl-b : source-file /path/to/file
 
 # To swap windows:

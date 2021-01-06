@@ -64,7 +64,7 @@ DISABLE_AUTO_UPDATE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
-	thefuck
+#	thefuck
 	systemd
 )
 
@@ -150,7 +150,7 @@ redo_ssh_wsl2_2() {
     export DISPLAY=$REAL_WSL_ADDR:0.0
     if [ ! -e "$SSH_AUTH_SOCK" ]; then
         echo "ssh socket ($SSH_AUTH_SOCK) not found"
-        socat UNIX-LISTEN:${SSH_AUTH_SOCK},mode=0600,fork,shut-down EXEC:"/mnt/c/Users/Rubikoid/dsct/Soft/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork >/dev/null 2>&1 &
+        socat UNIX-LISTEN:${SSH_AUTH_SOCK},mode=0600,fork,shut-down EXEC:"/mnt/c/Code/tmp/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork >/dev/null 2>&1 &
     fi
     echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
 }
