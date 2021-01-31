@@ -1,0 +1,24 @@
+defaultIndent: "    "
+
+# lookForAlignDelims:
+#     document: 1
+
+noAdditionalIndent:
+    document: 0 # i want fancy aligned document.
+
+indentAfterHeadings:
+    part:
+       indentAfterThisHeading: 1
+       level: 1
+    chapter: 
+       indentAfterThisHeading: 1
+       level: 2
+    section:
+       indentAfterThisHeading: 1
+       level: 3
+    subsection:
+       indentAfterThisHeading: 1
+       level: 4
+
+indentRules:
+    section: "    "
