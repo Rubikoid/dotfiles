@@ -1,11 +1,49 @@
 {
+    /* ============= GENERAL_TWEAKS ============= */
+    // fuck telemetry
+    "telemetry.enableTelemetry": false,
+    "partialDiff.enableTelemetry": false,
+    "gitlens.advanced.telemetry.enabled": false,
+
+    // enable git autofetch, and some git tweaking
     "git.autofetch": true,
+    "gitlens.views.repositories.files.layout": "tree",
+    
+    // some editor tweaking
+    "editor.suggestSelection": "first",
+    "extensions.ignoreRecommendations": true,
+    "window.zoomLevel": 0,  
+    "files.associations": {
+        "*.nasm": "asm-collection",
+        "*.jhtml": "jinja-html"
+    },
+
+    // some workbench tweaking
+    // set monokai dimmed them, move panel to the right, set bigger indent to tree.
+    "workbench.colorTheme": "Monokai Dimmed",
+    "workbench.startupEditor": "welcomePage",
+    "workbench.sideBar.location": "right",
+    "workbench.tree.indent": 20,
+    "workbench.activityBar.visible": true,
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+
+    // indentation fixes. Disable indentation delection, force \n (\r\n sucks shit) and insert trailing newline
     "editor.detectIndentation": false,
     "files.eol": "\n",
     "files.insertFinalNewline": true,
+    /* ============= GENERAL_TWEAKS ============= */
+
+ 
+    /* ============= PYTHON ============= */
+    // disable pylint and force flake8
+    "python.linting.enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
     "python.linting.flake8Args": [
         "--max-line-length=150",
         "--ignore=F401,E402,E122,F403,E226,F405,F841,E501,E265,E203,E231", // e203 and e231 is errors with := operator
@@ -17,14 +55,28 @@
     "python.formatting.autopep8Args": [
         "--max-line-length=150"
     ],
-    // "python.formatting.provider": "black",
+    // force usage of pylance
+    "python.languageServer": "Pylance",
+    /* ============= PYTHON ============= */
+
+    
+    /* ============= C/CPP ============= */
+    // force C11/C++11,
     "C_Cpp.default.cStandard": "c11",
     "C_Cpp.default.cppStandard": "c++11",
-    // "C_Cpp.clang_format_path": "D:\\Code\\LLVM\\bin\\clang-format.exe",
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0 }", // AlignConsecutiveMacros : true
-    // "python.workspaceSymbols.ctagsPath": "D:\\Code\\ctags\\ctags.exe",
-    "editor.suggestSelection": "first",
-    "window.zoomLevel": 0,
+    // enable clang and setup clang format style
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, AlignConsecutiveMacros : true}",
+    /* ============= C/CPP ============= */
+
+    
+    /* ============= Latex ============= */
+    // crazy latex settings. Generally, 
+    // xelatex runs xelatex -> bibtex -> xelatex
+    // xelatex_normal runs xelatex one one time
+    // pdflatex - pdflatex one time
+    // latexmk also runs latexmk once
+    // pdflatex ➞ bibtex ➞ pdflatex × 2 selfdescrible
     "latex-workshop.latex.recipes": [
         {
             "name": "xelatex",
@@ -62,6 +114,8 @@
             ]
         },
     ],
+
+    // this is a crazy shit to deal with latex in WSL, but without running the code inside WSL ;)
     "latex-workshop.latex.tools": [
         {
             "name": "latexmk",
@@ -115,89 +169,49 @@
             "env": {}
         }
     ],
-    /*"latex-workshop.latexindent.args": [
+    "latex-workshop.latexindent.args": [
         "-c",
-        "-c `wslpath -a \"%DIR%/\"` `wslpath -a \"%TMPFILE%\"` -y=defaultIndent: '%INDENT%'",
+        // -c,%DIR%/,%TMPFILE%,-y=defaultIndent: '%INDENT%'
+        "latexindent -c `wslpath -a \"%DIR%/\"`/l `wslpath -a \"%TMPFILE%\"`", //  \"-y=defaultIndent: '%INDENT%'\"
     ],
-    "latex-workshop.latexindent.path": "bash",*/
+    "latex-workshop.latexindent.path": "bash",
     "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.latex.recipe.default": "lastUsed",
     "latex-workshop.latex.build.forceRecipeUsage": true,
-    "telemetry.enableTelemetry": false,
-    "gitlens.advanced.telemetry.enabled": false,
-    "cSpell.language": ",ru",
-    "cSpell.userWords": [
-        "Connections",
-        "Figure",
-        "Markov",
-        "RELOAD",
-        "Scatter",
-        "abspath",
-        "annotations",
-        "closest",
-        "color",
-        "colorbar",
-        "colorscale",
-        "edge",
-        "edges",
-        "flask",
-        "fruchterman",
-        "graph",
-        "hovermode",
-        "layout",
-        "made",
-        "margin",
-        "marker",
-        "markers",
-        "networkx",
-        "nice",
-        "nodes",
-        "objs",
-        "plotly",
-        "punctuation",
-        "reingold",
-        "replace",
-        "seed",
-        "self",
-        "showarrow",
-        "showlegend",
-        "showticklabels",
-        "splitted",
-        "tasks",
-        "thickness",
-        "titlefont",
-        "weights",
-        "xanchor",
-        "xaxis",
-        "xref",
-        "yaxis",
-        "yref",
-        "zeroline"
-    ],
-    "workbench.startupEditor": "welcomePage",
-    // "docker.host": "127.0.0.1:2375",
-    "extensions.ignoreRecommendations": true,
-    "gitlens.views.repositories.files.layout": "tree",
-    "files.associations": {
-        "*.nasm": "asm-collection",
-        "*.jhtml": "jinja-html"
-    },
+    /* ============= Latex ============= */
+
+    /* ============= Some other options ============= */
+    // asm?
     "asm-code-lens.enableCodeLenses": false,
-    "workbench.sideBar.location": "right",
-    "workbench.tree.indent": 20,
+
+    // WSL tweak for maybe more stable things
     "remote.WSL.fileWatcher.polling": true,
+
+    // todo tree tweaks, add some keywords
+    "todo-tree.tree.showScanModeButton": false,
     "todo-tree.general.tags": [
         "TODO",
         "FIXME",
         "WTF"
     ],
+
+    // does we need whitespaces?
     "diffEditor.ignoreTrimWhitespace": false,
-    "todo-tree.tree.showScanModeButton": false,
-    "workbench.activityBar.visible": true,
+
+    // java wtf
     "java.requirements.JDK11Warning": false,
     "java.semanticHighlighting.enabled": false,
-    "workbench.colorTheme": "Monokai Dimmed",
-    "discord.smallImage": "vim",
-    "python.languageServer": "Pylance",
-}
 
+    // just for fun
+    "discord.smallImage": "vim",
+    
+    // some jupyter tweaks
+    "jupyter.askForKernelRestart": false,
+    "jupyter.alwaysTrustNotebooks": true,
+
+    // select yaml scheme for drone-ci
+    "yaml.schemas": {
+        "http://json.schemastore.org/drone": ["*drone.yml"]
+    }
+    /* ============= Some other options ============= */
+}
