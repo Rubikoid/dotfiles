@@ -1,17 +1,7 @@
 set nocompatible
 filetype off
 
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-
-"Plugin 'VundleVim/Vundle.vim'
-"Plugin 'LaTeX-Suite-aka-Vim-LaTeX'
-"Plugin 'vim-dirdiff'
-
-"call vundle#end()
-
 filetype plugin indent on
-
 
 syntax enable
 set termguicolors
