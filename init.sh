@@ -16,3 +16,6 @@ ln -s ~/dotfiles/cheat ~/.config/cheat
 
 # ssh
 ln -s ~/dotfiles/ssh/config ~/.ssh/config
+
+# ansible
+ln -s ~/dotfiles/ansible/ansible.cfg ~/.ansible.cfg
