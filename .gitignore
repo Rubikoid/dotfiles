@@ -3,3 +3,6 @@
 ssh/config
 ansible/ansible.cfg
 ansible/hosts
+git/all_config
+git/gitconfig
+git/pt_config

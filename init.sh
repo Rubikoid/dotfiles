@@ -19,3 +19,7 @@ ln -s ~/dotfiles/ssh/config ~/.ssh/config
 
 # ansible
 ln -s ~/dotfiles/ansible/ansible.cfg ~/.ansible.cfg
+
+# git
+ln -s ~/dotfiles/git/gitconfig ~/.gitconfig
+
