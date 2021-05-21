@@ -9,6 +9,7 @@ ln -s ~/dotfiles/zshrc ~/.zshrc
 
 # vim
 ln -s ~/dotfiles/vimrc ~/.vimrc
+ln -s ~/dotfiles/vim ~/.vim
 
 # cheat
 mkdir -p ~/.config
