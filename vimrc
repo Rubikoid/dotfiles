@@ -13,7 +13,7 @@ set background=dark
 "colorscheme solarized
 "colorscheme solarized8
 colorscheme hybrid
-"set term=xterm-256color
+set term=xterm-256color
 
 set tabstop=4
 set expandtab
@@ -21,6 +21,14 @@ set autoindent
 set number
 set whichwrap=<,>
 au filetype asm set filetype=nasm
+
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+endif
+
 
 let g:tex_flavor='latex'
 let g:Tex_DefaultTargetFormat='pdf'
