@@ -5,31 +5,39 @@ filetype plugin indent on
 
 syntax enable
 
-"set termguicolors
+" setup term, because of crazy vim reaction to screen/tmux-256color and broken ctrl+arrow keys
+set term=xterm-256color
+
+" i believe this will make colors better
+set termguicolors
+
+" dark bg
 set background=dark
+
+" theme setup
+"let g:clear_background=0
 "let g:solarized_italics=0
 "colorscheme twilight-anti-bright
 "colorscheme darkblue 
 "colorscheme solarized
 "colorscheme solarized8
-colorscheme hybrid
-set term=xterm-256color
+"colorscheme hybrid
+colorscheme monokai
 
+" make bg transparent 
+hi Normal guibg=NONE ctermbg=NONE
+
+" simple tab config
 set tabstop=4
 set expandtab
 set autoindent
 set number
 set whichwrap=<,>
+
+" asm is nasm
 au filetype asm set filetype=nasm
 
-if &term =~ '256color'
-  " disable Background Color Erase (BCE) so that color schemes
-  " render properly when inside 256-color tmux and GNU screen.
-  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  set t_ut=
-endif
-
-
+" latex mb?
 let g:tex_flavor='latex'
 let g:Tex_DefaultTargetFormat='pdf'
 "let g:Tex_ViewRule_pdf='/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe file://'
