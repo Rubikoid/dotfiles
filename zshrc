@@ -127,7 +127,10 @@ init_wsl_2() {
     SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
     export REAL_WSL_ADDR=`netsh.exe interface ip show ipaddresses "vEthernet (WSL)" | head -n 2 - | tail -n 1 | awk '{ print $2; }'`
     export DISPLAY=$REAL_WSL_ADDR:0.0
+    
     alias npp="notepad++.exe"
+    alias subdrop="sudo subsystemctl shell -s -u 1000"
+    alias exp="explorer.exe"
 }
 
 redo_ssh() {
