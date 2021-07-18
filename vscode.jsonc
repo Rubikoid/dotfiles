@@ -3,6 +3,8 @@
     // fuck telemetry
     "telemetry.enableTelemetry": false,
     "partialDiff.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "redhat.telemetry.enabled": false,
     "gitlens.advanced.telemetry.enabled": false,
 
     // enable git autofetch, and some git tweaking
@@ -15,7 +17,9 @@
     "window.zoomLevel": 0,  
     "files.associations": {
         "*.nasm": "asm-collection",
-        "*.jhtml": "jinja-html"
+        "*.jhtml": "jinja-html",
+        "*.jtxt": "jinja",
+        "*.njtxt": "jinja"
     },
 
     // some workbench tweaking
@@ -25,12 +29,9 @@
     "workbench.sideBar.location": "right",
     "workbench.tree.indent": 20,
     "workbench.activityBar.visible": true,
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
 
     // indentation fixes. Disable indentation delection, force \n (\r\n sucks shit) and insert trailing newline
     "editor.detectIndentation": false,
@@ -46,7 +47,9 @@
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Args": [
         "--max-line-length=150",
-        "--ignore=F401,E402,E122,F403,E226,F405,F841,E501,E265,E203,E231", // e203 and e231 is errors with := operator
+        "--ignore=F401,F402,W503", // e203 and e231 is errors with := operator 
+        // F401,E402,E122,F403,E226,F405,F841,E501,E265,E203,E231
+        // W503 - line break after binary operator
     ],
     "python.linting.pylintArgs": [
         "--load-plugins",
@@ -55,8 +58,18 @@
     "python.formatting.autopep8Args": [
         "--max-line-length=150"
     ],
+    "python.formatting.blackArgs": [
+        "--line-length=120",
+        "--target-version=py39",
+    ],
+    "python.formatting.provider": "black",
     // force usage of pylance
     "python.languageServer": "Pylance",
+    "python.showStartPage": false,
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
     /* ============= PYTHON ============= */
 
     
@@ -186,6 +199,11 @@
 
     // WSL tweak for maybe more stable things
     "remote.WSL.fileWatcher.polling": true,
+    "remote.SSH.configFile": "\\\\wsl$\\Arch\\home\\rubikoid\\dotfiles\\ssh\\config_vs",
+    "remote.SSH.remotePlatform": {
+        "c416": "linux",
+        "lxc": "linux"
+    },
 
     // todo tree tweaks, add some keywords
     "todo-tree.tree.showScanModeButton": false,
@@ -209,9 +227,28 @@
     "jupyter.askForKernelRestart": false,
     "jupyter.alwaysTrustNotebooks": true,
 
-    // select yaml scheme for drone-ci
+    // select yaml scheme for drone-ci, docker-compose, ansible
     "yaml.schemas": {
-        "http://json.schemastore.org/drone": ["*drone.yml"]
-    }
+        "http://json.schemastore.org/drone": ["*drone.yml"],
+        "http://json.schemastore.org/docker-compose": ["*docker-compose.yml"],
+        "https://json.schemastore.org/ansible-role-2.9.json": [
+            "**/roles/**/tasks/*.yml",
+            "**/roles/**/tasks/*.yaml"
+        ],
+        "https://json.schemastore.org/ansible-playbook.json": [
+            "playbook.yml",
+            "playbook.yaml"
+        ],
+        "https://json.schemastore.org/ansible-inventory.json": [
+            "inventory.yml",
+            "inventory.yaml"
+        ],
+        "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-galaxy.json": [
+            "galaxy.yml"
+        ]
+    },
+
+    // golang
+    "go.goroot": "C:/Code/Go",
     /* ============= Some other options ============= */
 }
