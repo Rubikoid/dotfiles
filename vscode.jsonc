@@ -47,10 +47,22 @@
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Args": [
         "--max-line-length=150",
-        "--ignore=F401,F402,W503", // e203 and e231 is errors with := operator 
-        // F401,E402,E122,F403,E226,F405,F841,E501,E265,E203,E231
-        // W503 - line break after binary operator
+        "--ignore=F401,E402,W503", // e203 and e231 are errors with := operator
     ],
+    /*
+        # F401 # module imported but unused
+        # F403 # ‘from module import *’ used; unable to detect undefined names
+        # F405 # name may be undefined, or defined from star imports: module
+        # F841 # local variable name is assigned to but never used
+        # E122 # continuation line missing indentation or outdented
+        # E226 # missing whitespace around arithmetic operator
+        # E265 # block comment should start with ‘# ‘
+        # E402 # module level import not at top of file
+        # E501 # line too long (82 > 79 characters)
+        # E203 # errors with := operator
+        # E231 # errors with := operator
+        # W503 # line break after binary operator
+    */
     "python.linting.pylintArgs": [
         "--load-plugins",
         "pylint_flask"
@@ -185,7 +197,7 @@
     "latex-workshop.latexindent.args": [
         "-c",
         // -c,%DIR%/,%TMPFILE%,-y=defaultIndent: '%INDENT%'
-        "latexindent -c `wslpath -a \"%DIR%/\"`/l `wslpath -a \"%TMPFILE%\"`", //  \"-y=defaultIndent: '%INDENT%'\"
+        "latexindent -c `wslpath -a \"%DIR%/\"` `wslpath -a \"%TMPFILE%\"`", //  \"-y=defaultIndent: '%INDENT%'\"
     ],
     "latex-workshop.latexindent.path": "bash",
     "latex-workshop.view.pdf.viewer": "tab",
@@ -202,16 +214,30 @@
     "remote.SSH.configFile": "\\\\wsl$\\Arch\\home\\rubikoid\\dotfiles\\ssh\\config_vs",
     "remote.SSH.remotePlatform": {
         "c416": "linux",
-        "lxc": "linux"
+        "lxc": "linux",
+        "10.0.3.2": "linux",
+        "192.168.1.60": "linux",
+        "Max": "linux"
     },
 
     // todo tree tweaks, add some keywords
+    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
     "todo-tree.tree.showScanModeButton": false,
     "todo-tree.general.tags": [
         "TODO",
         "FIXME",
-        "WTF"
+        "WTF",
+        "[ ]",
+        "[x]"
     ],
+    "todo-tree.highlights.customHighlight": {
+        "[ ]": {
+            "background": "#ff000080"
+        },
+        "[x]": {
+            "background": "#00ff0080"
+        }
+    },
 
     // does we need whitespaces?
     "diffEditor.ignoreTrimWhitespace": false,
@@ -250,5 +276,8 @@
 
     // golang
     "go.goroot": "C:/Code/Go",
+
+    // docker
+    "docker.showStartPage": false,
     /* ============= Some other options ============= */
 }
