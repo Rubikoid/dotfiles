@@ -1,9 +1,15 @@
 set nocompatible
+
 filetype off
-
 filetype plugin indent on
-
 syntax enable
+
+" setup plugins...
+call plug#begin('~/.vim/plugged')
+
+Plug 'WolfgangMehner/awk-support'
+
+call plug#end()
 
 " setup term, because of crazy vim reaction to screen/tmux-256color and broken ctrl+arrow keys
 set term=xterm-256color
@@ -27,12 +33,19 @@ colorscheme monokai
 " make bg transparent 
 hi Normal guibg=NONE ctermbg=NONE
 
-" simple tab config
+" tab == 4 spaces; always use spaces
 set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set autoindent
-set number
+set smartindent
+set cindent
+
 set whichwrap=<,>
+
+" line number
+set number
 
 " asm is nasm
 au filetype asm set filetype=nasm
