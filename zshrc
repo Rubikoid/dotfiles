@@ -126,11 +126,15 @@ init_wsl() {
 init_wsl_2() {
     SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
     export REAL_WSL_ADDR=`netsh.exe interface ip show ipaddresses "vEthernet (WSL)" | head -n 2 - | tail -n 1 | awk '{ print $2; }'`
+    export INTR_WSL_ADDR=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'` 
+    # netsh.exe interface portproxy add v4tov4 listenport=3000 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.18.28.x
     export DISPLAY=$REAL_WSL_ADDR:0.0
     
     alias npp="notepad++.exe"
     alias subdrop="sudo subsystemctl shell -s -u 1000"
     alias exp="explorer.exe"
+    alias gcli='powershell.exe -command "Get-Clipboard"'
+    alias scli="clip.exe"
 }
 
 redo_ssh() {
@@ -152,4 +156,35 @@ redo_ssh_wsl2() {
     echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
 }
 
+chpwd() {
+    export SHORT_PWD=$(print -rD $PWD)
+}
+
+SHORT_PWD_DUMP_PATH="/tmp/short_pwd_dump"
+TRAPUSR1() {
+    echo "$SHORT_PWD" > /tmp/short_pwd_dump
+}
+
+
+get_path_from_old_shell() {
+    # kill -USR1 $(ps u | grep $(echo "$SOURCE_PANE_TTY" | awk -F/ '{print $3 "/" $4;}') | awk '/\-zsh$/{print $2; }')
+    if [[ -n "$SOURCE_PANE_PID" ]]; then
+        kill -USR1 "$SOURCE_PANE_PID";
+        KILL_STATUS=$?;
+        if [[ -e "$SHORT_PWD_DUMP_PATH" ]]; then 
+            echo "Source pid=$SOURCE_PANE_PID; path=$(cat "$SHORT_PWD_DUMP_PATH")"
+            eval cd $(cat "$SHORT_PWD_DUMP_PATH") && \
+            rm "$SHORT_PWD_DUMP_PATH"
+        else
+            echo "Source pid=$SOURCE_PANE_PID; no file at '$SHORT_PWD_DUMP_PATH' "
+        fi;
+     fi;
+}
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+compinit
+
 source ~/.zshrc_comp_dep
+
