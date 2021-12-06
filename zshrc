@@ -156,20 +156,22 @@ redo_ssh_wsl2() {
     echo "SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}"
 }
 
-chpwd() {
-    export SHORT_PWD=$(print -rD $PWD)
-}
-
-SHORT_PWD_DUMP_PATH="/tmp/short_pwd_dump"
-TRAPUSR1() {
-    echo "$SHORT_PWD" > /tmp/short_pwd_dump
-}
-
 
 get_path_from_old_shell() {
+    # chpwd() {
+    #     export SHORT_PWD=
+    # }
+
+    SHORT_PWD_DUMP_PATH="/tmp/short_pwd_dump"
+    
+    TRAPUSR1() {
+        # echo "$SHORT_PWD" > /tmp/short_pwd_dump
+        print -rD $PWD > $SHORT_PWD_DUMP_PATH
+    }
+
     # kill -USR1 $(ps u | grep $(echo "$SOURCE_PANE_TTY" | awk -F/ '{print $3 "/" $4;}') | awk '/\-zsh$/{print $2; }')
     if [[ -n "$SOURCE_PANE_PID" ]]; then
-        kill -USR1 "$SOURCE_PANE_PID";
+        kill -USR1 "$SOURCE_PANE_PID";sleep 0.1;
         KILL_STATUS=$?;
         if [[ -e "$SHORT_PWD_DUMP_PATH" ]]; then 
             echo "Source pid=$SOURCE_PANE_PID; path=$(cat "$SHORT_PWD_DUMP_PATH")"
@@ -181,10 +183,12 @@ get_path_from_old_shell() {
      fi;
 }
 
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-fpath+=~/.zfunc
-compinit
+completion_fix() {
+    autoload -Uz compinit
+    zstyle ':completion:*' menu select
+    fpath+=~/.zfunc
+    compinit
+}
 
 source ~/.zshrc_comp_dep
 

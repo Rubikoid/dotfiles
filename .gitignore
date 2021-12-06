@@ -8,3 +8,4 @@ ansible/hosts
 git/all_config
 git/gitconfig
 git/pt_config
+ssh/config_vs
