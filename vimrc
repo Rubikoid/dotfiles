@@ -4,12 +4,18 @@ filetype off
 filetype plugin indent on
 syntax enable
 
+
 " setup plugins...
 call plug#begin('~/.vim/plugged')
 
+Plug 'scrooloose/nerdtree'
+Plug 'itchyny/lightline.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'WolfgangMehner/awk-support'
 
 call plug#end()
+" end plugins
+
 
 " setup term, because of crazy vim reaction to screen/tmux-256color and broken ctrl+arrow keys
 set term=xterm-256color
@@ -42,10 +48,27 @@ set autoindent
 set smartindent
 set cindent
 
+" idk what is this
 set whichwrap=<,>
+
+" to make lightline work better
+set laststatus=2
+set ttimeout ttimeoutlen=50
+set noshowmode
+
+" Ctrl+P setup
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+" bind ctrl+o for nerdtree
+map <C-o> :NERDTreeToggle<CR>
 
 " line number
 set number
+
+" some bindings...
+set pastetoggle=<f5>
+nnoremap <f4> :set nonumber!<CR>
 
 " asm is nasm
 au filetype asm set filetype=nasm
