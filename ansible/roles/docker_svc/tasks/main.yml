@@ -1,0 +1,17 @@
+---
+- name: DSVC Creates directory
+  file:
+    path: "{{ dsvc_root_dir }}/{{ dsvc_name }}"
+    state: directory
+    recurse: yes
+
+- name: DSVC deploy files
+  copy:
+    src: "{{ dsvc_dir }}/{{ item }}"
+    dest: "{{ dsvc_root_dir }}/{{ dsvc_name }}/"
+  with_items: "{{ dsvc_files }}"
+
+- name: "Start/restart service"
+  community.docker.docker_compose:
+    project_src: "{{ dsvc_root_dir }}/{{ dsvc_name }}"
+    state: present
