@@ -131,7 +131,13 @@ init_wsl_2() {
     export INTR_WSL_ADDR=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'` 
     # netsh.exe interface portproxy add v4tov4 listenport=3000 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.18.28.x
     export DISPLAY=$REAL_WSL_ADDR:0.0
-    
+
+    if subsystemctl is-inside; then
+        # PROMPT="$PROMPT""[sub]" 
+        PROMPT=$'%{$fg_bold[green]%}%n@%m %{$fg[blue]%}%D{[%X]} %{$reset_color%}%{$fg[white]%}[%~]%{$reset_color%} [sub] $(git_prompt_info)\
+%{$fg[blue]%}->%{$fg_bold[blue]%} %#%{$reset_color%} ' 
+    fi
+
     alias npp="notepad++.exe"
     alias subdrop="sudo subsystemctl shell -s -u 1000"
     alias exp="explorer.exe"
