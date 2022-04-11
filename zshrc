@@ -101,6 +101,8 @@ alias tmux="tmux attach || tmux"
 alias nn="ninja"
 alias ch="cheat"
 
+alias gsp="git stash push -u -m 'pull temp' && git pull --rebase && git stash pop && echo 'FIN'; "
+
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir -p $ZSH_CACHE_DIR
@@ -135,6 +137,7 @@ init_wsl_2() {
     alias exp="explorer.exe"
     alias gcli='powershell.exe -command "Get-Clipboard"'
     alias scli="clip.exe"
+    alias wcode="cmd.exe /c 'code .'"
 }
 
 redo_ssh() {
