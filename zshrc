@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-ZSH=/usr/share/oh-my-zsh/
+ZSH=/usr/local/share/oh-my-zsh/
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -64,7 +64,6 @@ DISABLE_AUTO_UPDATE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
-#	thefuck
 	systemd
     docker
 )
@@ -108,15 +107,16 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir -p $ZSH_CACHE_DIR
 fi
 
-eval `dircolors ~/dotfiles/dircolors.256dark`
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    eval `dircolors ~/dotfiles/dircolors.256dark`
+fi
 
-source $ZSH/oh-my-zsh.sh
 export MC_SKIN=~/.mc/lib/solarized.ini
 export LC_ALL=en_US.UTF-8
 export DISPLAY=:0.0
 export GPG_TTY=$(tty)
-#export GNUPGHOME=/mnt/i/gnupg
 export EDITOR=vim
+
 PATH=$PATH:~/go/bin
 
 init_wsl() {
@@ -144,6 +144,16 @@ init_wsl_2() {
     alias gcli='powershell.exe -command "Get-Clipboard"'
     alias scli="clip.exe"
     alias wcode="cmd.exe /c 'code .'"
+}
+
+init_mac() {
+    plugins+=(
+        macos
+        #zsh-syntax-highlighting
+    )
+    
+    test -e /Users/rubikoid/.iterm2/shell_integration.zsh && source /Users/rubikoid/.iterm2/shell_integration.zsh || true 
+    # source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
 
 redo_ssh() {
@@ -200,4 +210,4 @@ completion_fix() {
 }
 
 source ~/.zshrc_comp_dep
-
+source $ZSH/oh-my-zsh.sh
