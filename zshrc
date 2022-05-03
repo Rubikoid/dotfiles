@@ -2,7 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-ZSH=/usr/local/share/oh-my-zsh/
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    ZSH=/usr/share/oh-my-zsh/
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    ZSH=/usr/local/share/oh-my-zsh/
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -119,6 +124,10 @@ export EDITOR=vim
 
 PATH=$PATH:~/go/bin
 
+post_init() {
+
+}
+
 init_wsl() {
     SSH_AUTH_KEEAGENT_SOCK=/mnt/c/Users/Rubikoid/ag_msys
     SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
@@ -151,7 +160,7 @@ init_mac() {
         macos
         #zsh-syntax-highlighting
     )
-    
+
     test -e /Users/rubikoid/.iterm2/shell_integration.zsh && source /Users/rubikoid/.iterm2/shell_integration.zsh || true 
     # source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
@@ -211,3 +220,4 @@ completion_fix() {
 
 source ~/.zshrc_comp_dep
 source $ZSH/oh-my-zsh.sh
+post_init
