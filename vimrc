@@ -1,9 +1,10 @@
 set nocompatible
 
+source $VIMRUNTIME/vimrc_example.vim
+
 filetype off
 filetype plugin indent on
 syntax enable
-
 
 " setup plugins...
 call plug#begin('~/.vim/plugged')

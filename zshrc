@@ -135,17 +135,19 @@ init_wsl() {
 }
 
 init_wsl_2() {
-    SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
+    SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX` 
     export REAL_WSL_ADDR=`netsh.exe interface ip show ipaddresses "vEthernet (WSL)" | head -n 2 - | tail -n 1 | awk '{ print $2; }'`
     export INTR_WSL_ADDR=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'` 
     # netsh.exe interface portproxy add v4tov4 listenport=3000 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.18.28.x
     export DISPLAY=$REAL_WSL_ADDR:0.0
-
-    if subsystemctl is-inside; then
-        # PROMPT="$PROMPT""[sub]" 
-        PROMPT=$'%{$fg_bold[green]%}%n@%m %{$fg[blue]%}%D{[%X]} %{$reset_color%}%{$fg[white]%}[%~]%{$reset_color%} [sub] $(git_prompt_info)\
+    
+    post_init_subsys() {
+        if subsystemctl is-inside; then
+            # PROMPT="$PROMPT""[sub]" 
+            PROMPT=$'%{$fg_bold[green]%}%n@%m %{$fg[blue]%}%D{[%X]} %{$reset_color%}%{$fg[white]%}[%~]%{$reset_color%} [sub] $(git_prompt_info)\
 %{$fg[blue]%}->%{$fg_bold[blue]%} %#%{$reset_color%} ' 
-    fi
+        fi
+    }
 
     alias npp="notepad++.exe"
     alias subdrop="sudo subsystemctl shell -s -u 1000"
@@ -153,6 +155,7 @@ init_wsl_2() {
     alias gcli='powershell.exe -command "Get-Clipboard"'
     alias scli="clip.exe"
     alias wcode="cmd.exe /c 'code .'"
+    
 }
 
 init_mac() {
