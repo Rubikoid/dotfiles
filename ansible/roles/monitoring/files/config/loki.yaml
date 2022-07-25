@@ -1,0 +1,78 @@
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  log_level: warn
+
+memberlist:
+  abort_if_cluster_join_fails: false
+
+  # Expose this port on all distributor, ingester
+  # and querier replicas.
+  bind_port: 7946
+
+  # You can use a headless k8s service for all distributor,
+  # ingester and querier components.
+  join_members:
+    - loki-gossip-ring.loki.svc.cluster.local:7946
+
+  max_join_backoff: 1m
+  max_join_retries: 10
+  min_join_backoff: 1s
+
+common:
+  path_prefix: /loki
+  replication_factor: 1
+  storage:
+    s3:
+      endpoint: minio:9000
+      bucketnames: loki
+      access_key_id: mimir
+      secret_access_key: supersecret
+      insecure: true
+      s3forcepathstyle: true
+  ring:
+    kvstore:
+      store: memberlist
+
+distributor:
+  ring:
+    kvstore:
+      store: memberlist
+
+ingester:
+  lifecycler:
+    ring:
+      kvstore:
+        store: memberlist
+      replication_factor: 1
+    final_sleep: 0s
+  chunk_idle_period: 5m
+  chunk_retain_period: 30s
+
+schema_config:
+  configs:
+    - from: 2022-06-01
+      store: boltdb-shipper
+      object_store: s3
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+storage_config:
+  boltdb_shipper:
+    active_index_directory: /loki/index
+    cache_location: /loki/index_cache
+    shared_store: s3
+
+compactor:
+  working_directory: /loki/compactor
+  shared_store: s3
+  compaction_interval: 5m
+
+ruler:
+  alertmanager_url: http://mimir:9009/alertmanager
+
+analytics:
+  reporting_enabled: false

@@ -1,0 +1,9 @@
+[Unit]
+Description=Grafana Agent
+
+[Service]
+ExecStart=/usr/local/bin/agent-linux-amd64 --config.file=/etc/grafana-agent-config.yaml -enable-features=integrations-next -config.expand-env -config.enable-read-api
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

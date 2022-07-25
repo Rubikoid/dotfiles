@@ -1,0 +1,129 @@
+version: '3'
+
+services:
+  minio:
+    image: minio/minio
+    entrypoint: [ "" ]
+    command:
+      [
+        "sh",
+        "-c",
+        "mkdir -p /data/mimir-blocks /data/mimir-ruler /data/mimir-alertmanager /data/loki /data/mimir && minio server --quiet /data"
+      ]
+    volumes:
+      - minio-storage:/data
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - core
+
+  loki:
+    image: grafana/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - loki_storate:/loki
+    expose:
+      - "3100"
+    ports:
+      - "127.0.0.1:43100:3100"
+    env_file:
+      - .env
+    depends_on:
+      - minio
+    restart: always
+    networks:
+      - core
+
+  mimir:
+    image: grafana/mimir
+    command: --config.file=/etc/mimir/conf.yaml
+    volumes:
+      - "./config/mimir.yaml:/etc/mimir/conf.yaml:ro"
+      - "./config/alertmanager-fallback-config.yaml:/etc/mimir/alertmanager-fallback-config.yaml:ro"
+      - mimir-storage:/data:rw
+    expose:
+      - "9009"
+    ports:
+      - "127.0.0.1:49009:9009"
+    env_file:
+      - .env
+    depends_on:
+      - minio
+    restart: always
+    networks:
+      - core
+
+  grafana:
+    image: grafana/grafana-oss
+    entrypoint:
+      - /usr/share/grafana/bin/grafana-server
+      - --homepath=/usr/share/grafana
+      - --config=/etc/grafana-config/grafana.ini
+    volumes:
+      - ./grafana/config:/etc/grafana-config
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards-provisioning:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana-storage:/var/lib/grafana
+    ports:
+      - "127.0.0.1:43000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mimir
+    restart: always
+    networks:
+      - core
+
+volumes:
+  grafana-storage:
+  mimir-storage:
+  minio-storage:
+  loki_storate:
+
+
+networks:
+  core:
+
+    # agent:
+    #   image: grafana/agent
+    #   volumes:
+    #     - ./agent/config:/etc/agent-config:ro
+    #     - "/:/host/root:ro,rslave"
+    #     - "/sys:/host/sys:ro,rslave"
+    #     - "/proc:/host/proc:ro,rslave"
+    #     - "/var/log:/host/var/log:ro,rslave"
+    #   entrypoint:
+    #     - /bin/agent
+    #     - -config.file=/etc/agent-config/agent.yaml
+    #     - -metrics.wal-directory=/tmp/agent/wal
+    #     - -enable-features=integrations-next
+    #     - -config.expand-env
+    #     - -config.enable-read-api
+    #   expose:
+    #     - "12345"
+    #   depends_on:
+    #     - mimir
+    #     - cadvisor
+    #   restart: always
+    #   networks:
+    #     - core
+
+    # cadvisor:
+    #   #image: google/cadvisor
+    #   image: gcr.io/google-containers/cadvisor:latest
+    #   command:
+    #     - "--raw_cgroup_prefix_whitelist=/docker/"
+    #   volumes:
+    #     - /:/rootfs:ro
+    #     - /var/run:/var/run:rw
+    #     - /sys:/sys:ro
+    #     - /var/lib/docker/:/var/lib/docker:ro
+    #   expose:
+    #     - "8080"
+    #   ports:
+    #     - "127.0.0.1:48080:8080"
+    #   restart: always
+    #   networks:
+    #     - core

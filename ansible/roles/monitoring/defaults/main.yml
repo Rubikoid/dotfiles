@@ -1,0 +1,4 @@
+---
+# defaults file for monitoring
+
+agent_version: "0.26.0"

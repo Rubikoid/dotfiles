@@ -7,7 +7,7 @@
 
 - name: DSVC deploy files
   copy:
-    src: "{{ dsvc_dir }}/{{ item }}"
+    src: "{{ item }}"
     dest: "{{ dsvc_root_dir }}/{{ dsvc_name }}/"
   with_items: "{{ dsvc_files }}"
 

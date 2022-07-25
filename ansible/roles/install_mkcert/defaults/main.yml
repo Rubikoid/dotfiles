@@ -1,0 +1,6 @@
+---
+mkcert_ver: "1.4.3"
+mkcert_mirror: "https://github.com/FiloSottile/mkcert/releases/download"
+mkcert_os: "linux"
+mkcert_arch: "amd64"
+mkcert_install_dir: "{{ ansible_env.HOME }}/.local/bin"

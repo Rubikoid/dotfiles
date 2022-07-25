@@ -1,0 +1,78 @@
+---
+# tasks file for nginx
+- name: Install all packages
+  apt:
+    pkg:
+      - nginx-full
+      - certbot
+      - python3-certbot-nginx
+    state: latest
+    update_cache: true
+  become: true
+
+- name: Run certbot
+  # shell: "certbot certonly -m cert@rubikoid.ru --agree-tos --no-eff-email --nginx -d {{ nginx_server_name }}"
+  # shell: "echo 1"
+  shell: "certbot certonly -m cert@rubikoid.ru --agree-tos --no-eff-email --webroot --webroot-path '/var/www/letsencrypt' -d {{ nginx_server_name }}"
+  args:
+    creates: /etc/letsencrypt/live/{{ nginx_server_name }}
+  become: true
+  when: nginx_server_name != "_" and cert_way == "certbot"
+
+- block:
+    - name: "Run mkcert to create CA"
+      shell: "mkcert"
+      args:
+        creates: /etc/mkcert/rootCA.pem
+      environment:
+        CAROOT: "/etc/mkcert"
+
+    - name: Run mkcert
+      shell: "mkcert {{ nginx_server_name }}"
+      args:
+        chdir: /etc/mkcert/
+        creates: /etc/mkcert/{{ nginx_server_name }}-key.pem
+      environment:
+        CAROOT: "/etc/mkcert"
+  become: true
+  when: nginx_server_name != "_" and cert_way == "mkcert"
+
+- name: Setup directory
+  file:
+    path: "/var/www/{{ nginx_root_location }}"
+    state: directory
+    owner: svc
+    group: www-data
+    mode: 0750
+  become: true
+  when: nginx_root_location != "/dev/null"
+
+- name: Deploy nginx.conf
+  copy:
+    src: "nginx.conf"
+    dest: "/etc/nginx/nginx.conf"
+  become: true
+  notify:
+    - nginx reload
+
+- name: Deploy LE ssl params
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/letsencrypt/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - options-ssl-nginx.conf
+    - ssl-dhparams.pem
+  become: true
+  notify:
+    - nginx reload
+
+- name: Deploy config
+  template:
+    src: "{{ nginx_template_name }}.j2"
+    dest: "/etc/nginx/sites-enabled/{{ nginx_config_name }}"
+  become: true
+  notify:
+    - nginx reload

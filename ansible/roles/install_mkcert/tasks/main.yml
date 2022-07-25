@@ -1,0 +1,32 @@
+---
+- name: "Install certutil"
+  ansible.builtin.apt:
+    name: libnss3-tools
+    state: present
+  become: true
+
+- name: "Check if {{ mkcert_exe }} is installed"
+  stat:
+    path: "{{ mkcert_exe }}"
+  register: mkcert_installed
+
+- block:
+    - name: "Ensure {{ mkcert_install_dir }} exists"
+      ansible.builtin.file:
+        path: "{{ mkcert_install_dir }}"
+        state: directory
+        mode: 0755
+
+    - name: "Download {{ mkcert_url }} to {{ mkcert_exe }}"
+      ansible.builtin.get_url:
+        url: "{{ mkcert_url }}"
+        dest: "{{ mkcert_exe }}"
+        mode: 0755
+
+  when: mkcert_installed.stat.exists is false
+
+- name: "Link {{ mkcert_link }} to {{ mkcert_exe }}"
+  file:
+    src: "{{ mkcert_exe }}"
+    dest: "{{ mkcert_link }}"
+    state: link

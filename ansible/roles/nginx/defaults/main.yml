@@ -1,0 +1,4 @@
+---
+# defaults file for nginx
+cert_way: "certbot" # valid values: certbot, mkcert, none
+update_cert: False # currently not supported

@@ -1,0 +1,13 @@
+---
+# handlers file for monitoring
+- name: agent start
+  service: name=grafana-agent state=started
+  become: true
+
+- name: agent restart
+  service: name=grafana-agent state=restarted
+  become: true
+
+- name: agent reload
+  service: name=grafana-agent state=reloaded
+  become: true

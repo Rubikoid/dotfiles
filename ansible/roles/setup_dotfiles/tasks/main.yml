@@ -1,0 +1,32 @@
+---
+- name: Check dotfiles installed
+  stat:
+    path: ~/dotfiles
+  register: check_dotfiles_result
+
+- name: Ending playbook if dotfiles installed
+  meta: end_host
+  when: check_dotfiles_result.stat.exists
+
+- name: Install zsh, git, vim, tmux
+  apt:
+    pkg:
+      - zsh
+      - git
+      - vim
+      - tmux
+    state: latest
+    update_cache: true
+  become: true
+
+- name: Get repo
+  ansible.builtin.git:
+    repo: https://github.com/Rubikoid/dotfiles.git
+    dest: ~/dotfiles
+
+- name: Init dotfiles
+  ansible.builtin.shell: ~/dotfiles/init.sh
+  args:
+    creates:
+      - ~/.zshrc
+      - ~/.vimrc

@@ -1,0 +1,6 @@
+---
+mkcert_exe: "{{ mkcert_install_dir }}/mkcert-{{ mkcert_ver }}"
+mkcert_link: "{{ mkcert_install_dir }}/mkcert"
+mkcert_platform: "{{ mkcert_os }}-{{ mkcert_arch }}"
+mkcert_binary: "mkcert-v{{ mkcert_ver }}-{{ mkcert_platform }}"
+mkcert_url: "{{ mkcert_mirror }}/v{{ mkcert_ver }}/{{ mkcert_binary }}"

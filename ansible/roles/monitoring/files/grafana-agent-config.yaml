@@ -1,0 +1,54 @@
+server:
+  log_level: warn
+
+metrics:
+  global:
+    scrape_interval: 20s
+    scrape_timeout: 10s # default
+    remote_write:
+      - url: http://localhost:49009/api/v1/push
+  configs:
+    - name: default
+
+
+logs:
+  configs:
+    - name: default
+      clients:
+        - url: http://localhost:43100/loki/api/v1/push
+      positions:
+        filename: /tmp/positions.yaml
+      scrape_configs:
+        - job_name: varlogs
+          static_configs:
+            - targets: [localhost]
+              labels:
+                job: varlogs
+                __path__: /var/log/*log
+        - job_name: journal
+          journal:
+            max_age: 12h
+            labels:
+              job: systemd-journal
+          relabel_configs:
+            - source_labels: ["__journal__systemd_unit"]
+              target_label: "unit"
+
+integrations:
+  agent:
+    extra_labels:
+      cluster: aeroctf
+      namespace: aeroctf
+      container: grafana-agent
+      pod: grafana-agent-${HOSTNAME:-agent}
+
+  node_exporter:
+    rootfs_path: /
+    sysfs_path: /sys
+    procfs_path: /proc
+
+  cadvisor:
+    autoscrape:
+      metric_relabel_configs:
+        - regex: "(container_label_com_docker_compose_config_hash|container_label_com_docker_compose_container_number|container_label_com_docker_compose_oneoff|container_label_com_docker_compose_version|container_label_maintainer|container_label_org_label_schema_schema_version|container_label_org_label_schema_vcs_ref)"
+          action: labeldrop

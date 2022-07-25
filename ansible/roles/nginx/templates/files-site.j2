@@ -1,0 +1,30 @@
+server {
+    listen 80;
+    server_name {{ nginx_server_name }};
+    return 302 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ nginx_server_name }};
+
+    {% if cert_way == "certbot" %}
+    ssl_certificate /etc/letsencrypt/live/{{ nginx_server_name }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ nginx_server_name }}/privkey.pem; # managed by Certbot
+    {% elif cert_way == "mkcert" %}
+    ssl_certificate /etc/mkcert/{{ nginx_server_name }}.pem; # managed by mkcert
+    ssl_certificate_key /etc/mkcert/{{ nginx_server_name }}-key.pem; # managed by mkcert
+    {% endif %}
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+    location / {
+        root /var/www/{{ nginx_root_location }};
+        index index.html index.htm;
+
+        try_files $uri $uri/ =404;
+
+        {{ nginx_location_extra_settings }}
+    }
+}

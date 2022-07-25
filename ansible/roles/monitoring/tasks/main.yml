@@ -1,0 +1,59 @@
+---
+# tasks file for monitoring
+- name: Install all packages
+  apt:
+    pkg:
+      - unzip
+    state: latest
+    update_cache: true
+  become: true
+
+- name: "Download agent"
+  ansible.builtin.unarchive:
+    src: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/agent-linux-amd64.zip"
+    dest: "/usr/local/bin"
+    remote_src: yes
+  become: true
+
+- name: "Deploy agent config"
+  copy:
+    src: "grafana-agent-config.yaml"
+    dest: "/etc/grafana-agent-config.yaml"
+  become: true
+  notify:
+    - agent restart
+
+- name: "Deploy agent service"
+  copy:
+    src: "grafana-agent.service"
+    dest: "/etc/systemd/system/grafana-agent.service"
+  become: true
+  notify:
+    - agent restart
+
+- name: "Enable agent service"
+  systemd:
+    name: "grafana-agent.service"
+    enabled: "True"
+  become: true
+
+- name: "Setup service"
+  ansible.builtin.include_role:
+    name: docker_svc
+  vars:
+    dsvc_name: "monitoring"
+    dsvc_files:
+      - "docker-compose.yml"
+      - "grafana"
+      - "config"
+      - ".env"
+
+- name: Deploy config
+  template:
+    src: "grafana_config.ini.j2"
+    dest: "~/services/monitoring/grafana/config/grafana.ini"
+
+- name: "Start/restart monitoring"
+  community.docker.docker_compose:
+    project_src: "~/services/monitoring"
+    state: present
