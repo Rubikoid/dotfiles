@@ -161,10 +161,16 @@ init_wsl_2() {
 init_mac() {
     plugins+=(
         macos
+        golang
         #zsh-syntax-highlighting
     )
 
     test -e /Users/rubikoid/.iterm2/shell_integration.zsh && source /Users/rubikoid/.iterm2/shell_integration.zsh || true 
+    
+    alias diec='/Applications/die.app/Contents/MacOS/diec'
+    alias scli='pbcopy'
+    alias gcli='pbpaste'
+    alias far='open -a /opt/homebrew/bin/far2l'
     # source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
 
@@ -200,18 +206,20 @@ get_path_from_old_shell() {
         print -rD $PWD > $SHORT_PWD_DUMP_PATH
     }
 
-    # kill -USR1 $(ps u | grep $(echo "$SOURCE_PANE_TTY" | awk -F/ '{print $3 "/" $4;}') | awk '/\-zsh$/{print $2; }')
-    if [[ -n "$SOURCE_PANE_PID" ]]; then
-        kill -USR1 "$SOURCE_PANE_PID";sleep 0.1;
-        KILL_STATUS=$?;
-        if [[ -e "$SHORT_PWD_DUMP_PATH" ]]; then 
-            echo "Source pid=$SOURCE_PANE_PID; path=$(cat "$SHORT_PWD_DUMP_PATH")"
-            eval cd $(cat "$SHORT_PWD_DUMP_PATH") && \
-            rm "$SHORT_PWD_DUMP_PATH"
-        else
-            echo "Source pid=$SOURCE_PANE_PID; no file at '$SHORT_PWD_DUMP_PATH' "
+    load_old_path() {
+        # kill -USR1 $(ps u | grep $(echo "$SOURCE_PANE_TTY" | awk -F/ '{print $3 "/" $4;}') | awk '/\-zsh$/{print $2; }')
+        if [[ -n "$SOURCE_PANE_PID" ]]; then
+            kill -USR1 "$SOURCE_PANE_PID";sleep 0.1;
+            KILL_STATUS=$?;
+            if [[ -e "$SHORT_PWD_DUMP_PATH" ]]; then 
+                echo "Source pid=$SOURCE_PANE_PID; path=$(cat "$SHORT_PWD_DUMP_PATH")"
+                eval cd $(cat "$SHORT_PWD_DUMP_PATH") && \
+                rm "$SHORT_PWD_DUMP_PATH"
+            else
+                echo "Source pid=$SOURCE_PANE_PID; no file at '$SHORT_PWD_DUMP_PATH' "
+            fi;
         fi;
-     fi;
+    }
 }
 
 completion_fix() {
@@ -224,3 +232,9 @@ completion_fix() {
 source ~/.zshrc_comp_dep
 source $ZSH/oh-my-zsh.sh
 post_init
+
+# Entirety of my startup file... then
+if [[ "$PROFILE_STARTUP" == true ]]; then
+    unsetopt xtrace
+    exec 2>&3 3>&-
+fi
