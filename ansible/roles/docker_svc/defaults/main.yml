@@ -1,4 +1,5 @@
 ---
+dsvc_start: True
 dsvc_name: "test_service"
 dsvc_root_dir: "~/services"
 dsvc_files:

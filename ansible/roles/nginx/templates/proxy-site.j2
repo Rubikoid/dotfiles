@@ -32,5 +32,7 @@ server {
         proxy_buffering off;
 
         proxy_pass {{ nginx_proxy_setup }};
+
+        {{ nginx_location_extra_settings }}
     }
 }

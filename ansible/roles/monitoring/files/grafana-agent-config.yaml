@@ -9,7 +9,13 @@ metrics:
       - url: http://localhost:49009/api/v1/push
   configs:
     - name: default
-
+      scrape_configs:
+        - job_name: cadvisor
+          metric_relabel_configs:
+            - regex: "(container_label_com_docker_compose_config_hash|container_label_com_docker_compose_container_number|container_label_com_docker_compose_oneoff|container_label_com_docker_compose_version|container_label_maintainer|container_label_org_label_schema_schema_version|container_label_org_label_schema_vcs_ref)"
+              action: labeldrop
+          static_configs:
+            - targets: ["localhost:48080"]
 
 logs:
   configs:
@@ -25,6 +31,18 @@ logs:
               labels:
                 job: varlogs
                 __path__: /var/log/*log
+        - job_name: yatb
+          static_configs:
+            - targets: [localhost]
+              labels:
+                job: yatb
+                __path__: /home/yatb/services/yatb/logs/yatb.log
+        - job_name: nginx
+          static_configs:
+            - targets: [localhost]
+              labels:
+                job: nginx
+                __path__: /var/log/nginx/*.log
         - job_name: journal
           journal:
             max_age: 12h
@@ -46,9 +64,3 @@ integrations:
     rootfs_path: /
     sysfs_path: /sys
     procfs_path: /proc
-
-  cadvisor:
-    autoscrape:
-      metric_relabel_configs:
-        - regex: "(container_label_com_docker_compose_config_hash|container_label_com_docker_compose_container_number|container_label_com_docker_compose_oneoff|container_label_com_docker_compose_version|container_label_maintainer|container_label_org_label_schema_schema_version|container_label_org_label_schema_vcs_ref)"
-          action: labeldrop

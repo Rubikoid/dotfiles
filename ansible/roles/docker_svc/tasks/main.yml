@@ -6,7 +6,9 @@
     recurse: yes
 
 - name: DSVC deploy files
+  # ansible.posix.synchronize:
   copy:
+    # checksum: true
     src: "{{ item }}"
     dest: "{{ dsvc_root_dir }}/{{ dsvc_name }}/"
   with_items: "{{ dsvc_files }}"
@@ -15,3 +17,4 @@
   community.docker.docker_compose:
     project_src: "{{ dsvc_root_dir }}/{{ dsvc_name }}"
     state: present
+  when: dsvc_start

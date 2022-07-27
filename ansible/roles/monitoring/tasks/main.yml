@@ -42,6 +42,7 @@
     name: docker_svc
   vars:
     dsvc_name: "monitoring"
+    dsvc_start: no
     dsvc_files:
       - "docker-compose.yml"
       - "grafana"
