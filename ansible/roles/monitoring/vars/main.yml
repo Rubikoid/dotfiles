@@ -1,5 +1,2 @@
 ---
 # vars file for monitoring
-
-server_name: "server"
-grafana_admin_username: "admin"

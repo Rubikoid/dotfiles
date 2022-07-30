@@ -31,18 +31,6 @@ logs:
               labels:
                 job: varlogs
                 __path__: /var/log/*log
-        - job_name: yatb
-          static_configs:
-            - targets: [localhost]
-              labels:
-                job: yatb
-                __path__: /home/yatb/services/yatb/logs/yatb.log
-        - job_name: nginx
-          static_configs:
-            - targets: [localhost]
-              labels:
-                job: nginx
-                __path__: /var/log/nginx/*.log
         - job_name: journal
           journal:
             max_age: 12h

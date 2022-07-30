@@ -17,7 +17,7 @@
 
 - name: "Deploy agent config"
   copy:
-    src: "grafana-agent-config.yaml"
+    src: "{{ grafana_agent_config_file }}"
     dest: "/etc/grafana-agent-config.yaml"
   become: true
   notify:
