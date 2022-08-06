@@ -9,12 +9,13 @@
   # ansible.posix.synchronize:
   copy:
     # checksum: true
-    src: "{{ item }}"
+    src: "{{ dsvc_src_dir }}{{ item }}"
     dest: "{{ dsvc_root_dir }}/{{ dsvc_name }}/"
   with_items: "{{ dsvc_files }}"
 
 - name: "Start/restart service"
   community.docker.docker_compose:
     project_src: "{{ dsvc_root_dir }}/{{ dsvc_name }}"
+    build: "{{ build }}"
     state: present
   when: dsvc_start

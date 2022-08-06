@@ -1,25 +1,10 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     ZSH=/usr/share/oh-my-zsh/
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     ZSH=/usr/local/share/oh-my-zsh/
 fi
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="candy"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -30,12 +15,6 @@ ZSH_THEME="candy"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -62,19 +41,12 @@ DISABLE_AUTO_UPDATE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
 	systemd
     docker
 )
 
-
-# User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -91,22 +63,6 @@ plugins=(
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias pacaur="pacaur --color=auto"
-alias tmux="tmux attach || tmux"
-alias nn="ninja"
-alias ch="cheat"
-
-alias gsp="git stash push -u -m 'pull temp' && git pull --rebase && git stash pop && echo 'FIN'; "
-
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir -p $ZSH_CACHE_DIR
@@ -115,6 +71,10 @@ fi
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     eval `dircolors ~/dotfiles/dircolors.256dark`
 fi
+
+alias tmux="tmux attach || tmux"
+alias nn="ninja"
+alias ch="cheat"
 
 export MC_SKIN=~/.mc/lib/solarized.ini
 export LC_ALL=en_US.UTF-8
@@ -129,12 +89,14 @@ post_init() {
 }
 
 init_wsl() {
+    # for very old WSL1 systems...
     SSH_AUTH_KEEAGENT_SOCK=/mnt/c/Users/Rubikoid/ag_msys
     SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX`
     export DISPLAY=127.0.0.1:0.0
 }
 
 init_wsl_2() {
+    # modern WSL2 system
     SSH_AUTH_TMPDIR="/home/rubikoid/.ssh" # `mktemp --tmpdir --directory keeagent-ssh.XXXXXXXXXX` 
     export REAL_WSL_ADDR=`netsh.exe interface ip show ipaddresses "vEthernet (WSL)" | head -n 2 - | tail -n 1 | awk '{ print $2; }'`
     export INTR_WSL_ADDR=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'` 
@@ -155,10 +117,10 @@ init_wsl_2() {
     alias gcli='powershell.exe -command "Get-Clipboard"'
     alias scli="clip.exe"
     alias wcode="cmd.exe /c 'code .'"
-    
 }
 
 init_mac() {
+    # for mac os
     plugins+=(
         macos
         golang
@@ -175,6 +137,7 @@ init_mac() {
 }
 
 redo_ssh() {
+    # setup SSH
     SSH_AUTH_KEEAGENT_PORT=`sed -r 's/!<socket >([0-9]*\b).*/\1/' ${SSH_AUTH_KEEAGENT_SOCK}`
     export SSH_AUTH_SOCK="${SSH_AUTH_TMPDIR}/agent"
     if [ ! -e "$SSH_AUTH_SOCK" ]; then
@@ -185,6 +148,7 @@ redo_ssh() {
 }
 
 redo_ssh_wsl2() {
+    # also setup ssh, but for wsl2
     export SSH_AUTH_SOCK="${SSH_AUTH_TMPDIR}/agent"
     if [ ! -e "$SSH_AUTH_SOCK" ]; then
         echo "ssh socket ($SSH_AUTH_SOCK) not found"
@@ -222,6 +186,13 @@ get_path_from_old_shell() {
     }
 }
 
+init_fzf() {
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
+    # env | grep FZF
+    source ~/dotfiles/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
+}
+
 completion_fix() {
     autoload -Uz compinit
     zstyle ':completion:*' menu select
@@ -233,7 +204,7 @@ source ~/.zshrc_comp_dep
 source $ZSH/oh-my-zsh.sh
 post_init
 
-# Entirety of my startup file... then
+# drop profiling
 if [[ "$PROFILE_STARTUP" == true ]]; then
     unsetopt xtrace
     exec 2>&3 3>&-

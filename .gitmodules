@@ -1,0 +1,3 @@
+[submodule "fzf-zsh-plugin"]
+	path = fzf-zsh-plugin
+	url = git@github.com:rubikoid/fzf-zsh-plugin.git

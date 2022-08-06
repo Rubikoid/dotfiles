@@ -2,5 +2,7 @@
 dsvc_start: True
 dsvc_name: "test_service"
 dsvc_root_dir: "~/services"
+dsvc_src_dir: ""
 dsvc_files:
   - "docker-compose.yml"
+build: no
