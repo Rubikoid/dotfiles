@@ -187,10 +187,20 @@ get_path_from_old_shell() {
 }
 
 init_fzf() {
-    source /usr/share/fzf/key-bindings.zsh
-    source /usr/share/fzf/completion.zsh
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        local fzf_prefix=/usr/share/fzf/
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        local fzf_prefix=/opt/homebrew/opt/fzf/shell/
+    fi
+
+
+
+    source $fzf_prefix/key-bindings.zsh
+    source $fzf_prefix/completion.zsh
     # env | grep FZF
     source ~/dotfiles/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
+    
+    unset fzf_prefix
 }
 
 completion_fix() {

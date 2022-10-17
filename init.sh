@@ -8,6 +8,7 @@ ln -s ~/dotfiles/latex_indentconfig.yaml ~/.indentconfig.yaml
 ln -s ~/dotfiles/zshrc ~/.zshrc
 
 # vim
+mkdir -p ~/.cache/vim/{backups,undos}
 ln -s ~/dotfiles/vimrc ~/.vimrc
 ln -s ~/dotfiles/vim ~/.vim
 
