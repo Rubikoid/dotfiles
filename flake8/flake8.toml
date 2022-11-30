@@ -1,0 +1,53 @@
+[tool.flakeheaven]
+# 80 chars limit isn't enough in 21 century
+max_line_length = 120
+
+[tool.flakeheaven.plugins]
+flake8-adjustable-complexity = ["+*"]
+flake8-annotations = ["+*", "-ANN002", "-ANN003", "-ANN101"]
+flake8-bugbear = ["+*", "-B008"]
+flake8-builtins = ["+*"]
+flake8-cognitive-complexity = ["+*"]
+flake8-comprehensions = ["+*"]
+flake8-eradicate = ["+*", "-E800"]
+flake8-expression-complexity = ["+*"]
+flake8-functions = ["+*"]
+flake8-pie = ["+*", "-PIE803"]
+flake8-print = ["+*"]
+flake8-scream = ["+*"]
+flake8-simplify = ["+*"]
+flake8-use-pathlib = ["+*"]
+mccabe = ["+*"]
+pep8-naming = ["+*"]
+pycodestyle = ["+*", "-W503"]
+pyflakes = ["+*", "-F401"]
+pylint = ["+*", "-E0611", "-E1124", "-E1136", "-C0103", "-C0411", "-C0114", "-C0115", "-C0116", "-W0611", "-W0613", "-R0903"]
+
+
+# ANN002    | flake8-annotations    | Missing type annotation for *args                                             # ...
+# ANN003    | flake8-annotations    | Missing type annotation for **kwargs                                          # ...
+# ANN101    | flake8-annotations    | Missing type annotation for self in method                                    # oh come on
+
+# B008      | flake8-bugbear        | Do not perform function calls in argument defaults.                           # yes i know, but fastapi works that way.  
+
+# E800      | flake8-eradicate      | Found commented out code: {0}                                                 # this is ok
+# PIE803    | flake8-pie            | prefer-logging-interpolation: Use lazy % formatting in logging functions.     # no, i like f-strings
+
+# W503      | pycodestyle           | line break before binary operator                                             # black agree
+
+# F401      | pyflakes              | %r imported but unused                                                        # pylance cover it
+
+# E0611     | pylint                | No name %r in module %r                                                       # pyling too stupid
+# E1124     | pylint                | Argument %r passed by position and keyword in %s call
+# E1136     | pylint                | Value '%s' is unsubscriptable                                                 # this thing is just broken.
+# C0103     | pylint                | %s name "%s" doesn't conform to %s
+# C0411     | pylint                | %s should be placed before %s
+# C0114     | pylint                | Missing module docstring
+# C0115     | pylint                | Missing class docstring
+# C0116     | pylint                | Missing function or method docstring
+# W0611     | pylint                | Unused %s                                                                     # pylance cover it
+# W0613     | pylint                | Unused argument %r                                                            # pylance cover it
+# R0903     | pylint                | Too few public methods (%s/%s)                                                # enough strange info, specially in dataclass/pydantic models.
+
+# "flake8-*" = ["+*"]
+# flake8-global-variables-globalvariables = ["+*"]

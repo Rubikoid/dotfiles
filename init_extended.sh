@@ -17,3 +17,5 @@ ln -s ~/dotfiles/ansible/ansible.cfg ~/.ansible.cfg
 
 # git
 ln -s ~/dotfiles/git/gitconfig ~/.gitconfig
+
+ln -s ~/dotfiles/flake8/flake8.toml ~/flake8.toml
