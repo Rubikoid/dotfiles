@@ -4,6 +4,7 @@
   apt:
     pkg:
       - unzip
+      - libbpfcc
     state: latest
     update_cache: true
   become: true

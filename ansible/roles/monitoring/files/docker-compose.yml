@@ -1,14 +1,14 @@
-version: '3'
+version: "3"
 
 services:
   minio:
     image: minio/minio
-    entrypoint: [ "" ]
+    entrypoint: [""]
     command:
       [
         "sh",
         "-c",
-        "mkdir -p /data/mimir-blocks /data/mimir-ruler /data/mimir-alertmanager /data/loki /data/mimir && minio server --quiet /data"
+        "mkdir -p /data/mimir-blocks /data/mimir-ruler /data/mimir-alertmanager /data/loki /data/mimir && minio server --quiet /data",
       ]
     volumes:
       - minio-storage:/data
@@ -99,7 +99,6 @@ volumes:
   mimir-storage:
   minio-storage:
   loki_storate:
-
 
 networks:
   core:

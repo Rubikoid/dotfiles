@@ -63,6 +63,7 @@
   copy:
     src: /usr/share/oh-my-zsh/zshrc
     dest: /root/.zshrc
+    remote_src: true
   become: true
 
 - name: Clear tmp

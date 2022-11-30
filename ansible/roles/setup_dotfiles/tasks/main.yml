@@ -21,6 +21,7 @@
 
 - name: Get repo
   ansible.builtin.git:
+    recursive: no
     repo: https://github.com/Rubikoid/dotfiles.git
     dest: ~/dotfiles
 
