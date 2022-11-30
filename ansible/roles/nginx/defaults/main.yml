@@ -5,3 +5,12 @@ update_cert: False # currently not supported
 
 ssl_port: "443"
 
+nginx_config_name: "test_site"
+nginx_server_name: "rubikoid.ru"
+nginx_template_name: "proxy-site"
+
+nginx_proxy_setup: "http://127.0.0.1:9999"
+nginx_root_location: "/dev/null"
+
+nginx_location_extra_settings: ""
+nginx_extra: ""
