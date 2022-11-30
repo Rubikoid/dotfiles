@@ -5,7 +5,7 @@ server {
 }
 
 server {
-    listen 443 ssl;
+    listen {{ ssl_port }} ssl;
     server_name {{ nginx_server_name }};
 
     {% if cert_way == "certbot" %}
