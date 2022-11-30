@@ -4,8 +4,8 @@ pid /run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 
 events {
-        worker_connections 768;
-        # multi_accept on;
+        worker_connections 4000;
+        multi_accept on;
 }
 
 http {
@@ -74,11 +74,15 @@ http {
         set_real_ip_from 2405:8100::/32;
         set_real_ip_from 2c0f:f248::/32;
         set_real_ip_from 2a06:98c0::/29;
-        real_ip_header CF-Connecting-IP;
+        
+        set_real_ip_from 5.188.121.128/25;
+        real_ip_header X-Forwarded-For;
 
         ##
         # Virtual Host Configs
         ##
+
+        limit_req_zone $binary_remote_addr zone=mylimit:100m rate=100r/s;
 
         include /etc/nginx/conf.d/*.conf;
         include /etc/nginx/sites-enabled/*;
@@ -103,4 +107,4 @@ http {
 #               protocol   imap;
 #               proxy      on;
 #       }
-#}
+# }
