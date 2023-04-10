@@ -82,7 +82,7 @@ export DISPLAY=:0.0
 export GPG_TTY=$(tty)
 export EDITOR=vim
 
-PATH=$PATH:~/go/bin
+path+=~/go/bin
 
 post_init() {
 
@@ -129,10 +129,17 @@ init_mac() {
 
     test -e /Users/rubikoid/.iterm2/shell_integration.zsh && source /Users/rubikoid/.iterm2/shell_integration.zsh || true 
     
+    function die() {
+        open /Applications/die.app --args $(pwd)/$1
+    }
+
     alias diec='/Applications/die.app/Contents/MacOS/diec'
     alias scli='pbcopy'
     alias gcli='pbpaste'
     alias far='open -a /opt/homebrew/bin/far2l'
+
+    # zsh autocomplit from homebrew
+    fpath+=/opt/homebrew/share/zsh/site-functions
     # source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
 
