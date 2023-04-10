@@ -6,7 +6,7 @@
 
 - name: Ending playbook if OMZ installed
   meta: end_host
-  when: check_omz_result.stat.exists
+  when: check_omz_result.stat.exists and not force_omz
 
 - name: Install zsh, git, curl, wget
   apt:
