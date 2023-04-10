@@ -1,0 +1,67 @@
+# 80 chars limit isn't enough in 21 century
+line-length = 120
+
+# @profile just makes me cry 
+builtins = ["profile"]
+
+# don't poison local dirs please
+cache-dir = "~/.cache/ruff"
+
+# no thanks, i can fix it myself
+fix = false
+
+# python 3.10 target?
+target-version = "py310"
+
+# task tags
+task-tags = ["TODO", "FIXME", "WTF", "XXX"]
+
+# rules...
+select = ["ALL"]
+
+ignore = [
+  # "SIM",    # TMP
+  # "Ruff",   # TMP
+  "ERA001",  #   | commented out code
+  "ANN101",  # shit the fuck up
+  "ANN102",  # shit the fuck up
+  "ANN201",  # shit the fuck up
+  "RUF001",  # shut. the, fuck. up.
+  "RUF002",  #   | ..                    | Docstring contains ambiguous unicode character                    # i have vscode, it know about langs
+  "RUF003",  #   | ..                    | Comment contains ambiguous unicode character                      # i have vscode, it know about langs
+  "RUF100",  #   | ...                   | 
+  "B008",    # shut. the, fuck. up.
+  "I001",    #   | ..                    | Import block is un-sorted or un-formatted                         # i knew, but no.
+  "D100",    #   | pydocstyle            | Missing docstring in public module                                # i don't care. 
+  "D101",    #   | pydocstyle            | Missing docstring in public class                                 # i don't care. 
+  "D102",    #   | pydocstyle            | Missing docstring in public method                                # i don't care. 
+  "D103",    #   | pydocstyle            | Missing docstring in public function                              # i don't care. 
+  "D104",    #   | pydocstyle            | Missing docstring in public package                               # i don't care. 
+  "D105",    #   | pydocstyle            | Missing docstring in magic method                                 # i don't care. 
+  "D106",    #   | pydocstyle            | Missing docstring in public nested class                          # i don't care. 
+  "D200",    #   | pydocstyle            | One-line docstring should fit on one line                         # don't like it
+  "D202",    #   | pydocstyle            | No blank lines allowed after function docstring (found 1)         # don't like it
+  "D203",    #   | pydocstyle            | 1 blank line required before class docstring                      # don't like it
+  "D205",    #   | pydocstyle            | 1 blank line required between summary line and description        # don't like it
+  "D212",    #   | ...                   |
+  "D400",    #   | ...                   |
+  "D415",    #   | ...                   |
+  "F401",    #   | pyflakes              | %r imported but unused                                            # pylance cover it
+  "TID252",  #   | flake8-tidy-imports   | Relative imports are banned                                       # no.
+  "UP006",   #   | ruff?                 | Use `list` instead of `List` for type annotations                 # i care, but not this proj
+  "UP007",   #   | ruff?                 | union                                                             # i care, but not this proj
+  "EM101",   #   | ruff?                 | ...                                                               # i care, but not this proj
+  "EM102",   #   | ruff?                 | ...                                                               # i care, but not this proj
+  "TCH001",  #   | ruff?                 | ...                                                               # i care, but not this proj
+  "TCH002",  #   | ruff?                 | ...                                                               # i care, but not this proj
+  "TCH003",  #   | ruff?                 | ...                                                               # i care, but not this proj
+  "TRY400",  #   | ruff?                 | ...                                                               # i care, but not this proj
+  "TRY002",  #   | ruff?                 | ...                                                               # i care, but not this proj
+  "TRY003",  #   | ruff?                 | ...                                                               # i care, but not this proj
+  "G004",    #   | ruff?                 | ...                                                               # i care, but not this proj
+  "PLR0913", #   | ruff?                 | ...                                                               # i care, but not this proj
+]
+
+# i don't like tools to go outside
+update-check = false
+
