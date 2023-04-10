@@ -1,0 +1,36 @@
+---
+# tasks file for yggdrasil
+
+- name: Install dirmngr
+  ansible.builtin.apt:
+    name: dirmngr
+    state: present
+  become: true
+
+- name: Setup key
+  ansible.builtin.apt_key:
+    id: 569130E8CA20FBC4CB3FDE555898470A764B32C9
+    url: https://neilalexander.s3.dualstack.eu-west-2.amazonaws.com/deb/key.txt
+    keyring: /etc/apt/trusted.gpg.d/yggdrasil-keyring.gpg
+    state: present
+  become: true
+
+- name: Setup ygg repo
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/yggdrasil-keyring.gpg] http://neilalexander.s3.dualstack.eu-west-2.amazonaws.com/deb/ debian yggdrasil"
+    state: present
+  become: true
+
+- name: Install yggdrasil # noqa: package-latest
+  ansible.builtin.apt:
+    name: yggdrasil
+    state: latest
+    update_cache: true
+  become: true
+
+- name: Setup ygg service
+  ansible.builtin.service:
+    name: yggdrasil
+    enabled: true
+    state: started
+  become: true
