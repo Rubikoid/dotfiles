@@ -165,13 +165,15 @@ syntax enable
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree'
-Plug 'itchyny/lightline.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'WolfgangMehner/awk-support'
+Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
+Plug 'itchyny/lightline.vim'
 
 call plug#end()
 " end plugins
 
+" vim codestats key
 
 " setup term, because of crazy vim reaction to screen/tmux-256color and broken ctrl+arrow keys
 set term=xterm-256color
@@ -240,3 +242,7 @@ augroup yaml_fix
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 augroup END
 
+augroup nix_fix
+    autocmd!
+    autocmd FileType nix setlocal ts=2 sts=2 sw=2 expandtab
+augroup END

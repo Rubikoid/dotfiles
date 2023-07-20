@@ -1,7 +1,9 @@
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    ZSH=/usr/share/oh-my-zsh/
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    ZSH=/usr/local/share/oh-my-zsh/
+if [ -z "$ZSH" ]; then
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        ZSH=/usr/share/oh-my-zsh/
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        ZSH=/usr/local/share/oh-my-zsh/
+    fi
 fi
 
 ZSH_THEME="candy"
@@ -194,10 +196,14 @@ get_path_from_old_shell() {
 }
 
 init_fzf() {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        local fzf_prefix=/usr/share/fzf/
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        local fzf_prefix=/opt/homebrew/opt/fzf/shell/
+    if [ -z "$FZF_BASE_PATH" ]; then
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            local fzf_prefix=/usr/share/fzf/
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            local fzf_prefix=/opt/homebrew/opt/fzf/shell/
+        fi
+    else
+        local fzf_prefix=$FZF_BASE_PATH/share/fzf
     fi
 
 
