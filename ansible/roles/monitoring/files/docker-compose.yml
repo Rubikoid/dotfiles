@@ -36,7 +36,7 @@ services:
       - core
 
   mimir:
-    image: grafana/mimir
+    image: grafana/mimir:2.10.3
     command: --config.file=/etc/mimir/conf.yaml
     volumes:
       - "./config/mimir.yaml:/etc/mimir/conf.yaml:ro"

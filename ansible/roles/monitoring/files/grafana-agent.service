@@ -2,7 +2,7 @@
 Description=Grafana Agent
 
 [Service]
-ExecStart=/usr/local/bin/agent-linux-amd64 --config.file=/etc/grafana-agent-config.yaml -enable-features=integrations-next -config.expand-env -config.enable-read-api
+ExecStart=/usr/local/bin/grafana-agent-linux-amd64 -config.file /etc/grafana-agent-config.yaml -enable-features=integrations-next -config.expand-env -disable-reporting
 Restart=always
 
 [Install]
