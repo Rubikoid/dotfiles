@@ -3,19 +3,19 @@ server:
 
 metrics:
   global:
-    scrape_interval: 20s
-    scrape_timeout: 10s # default
+    scrape_interval: 5s
+    scrape_timeout: 3s # default
     remote_write:
       - url: http://localhost:49009/api/v1/push
   configs:
     - name: default
       scrape_configs:
-        - job_name: cadvisor
-          metric_relabel_configs:
-            - regex: "(container_label_com_docker_compose_config_hash|container_label_com_docker_compose_container_number|container_label_com_docker_compose_oneoff|container_label_com_docker_compose_version|container_label_maintainer|container_label_org_label_schema_schema_version|container_label_org_label_schema_vcs_ref)"
-              action: labeldrop
-          static_configs:
-            - targets: ["localhost:48080"]
+        # - job_name: cadvisor
+        #   metric_relabel_configs:
+        #     - regex: "(container_label_com_docker_compose_config_hash|container_label_com_docker_compose_container_number|container_label_com_docker_compose_oneoff|container_label_com_docker_compose_version|container_label_maintainer|container_label_org_label_schema_schema_version|container_label_org_label_schema_vcs_ref)"
+        #       action: labeldrop
+        #   static_configs:
+        #     - targets: ["localhost:48080"]
 
 logs:
   configs:
@@ -38,17 +38,13 @@ logs:
               job: systemd-journal
           relabel_configs:
             - source_labels: ["__journal__systemd_unit"]
-              target_label: "unit"
+              target_label: "systemd_unit"
+            - source_labels: ["__journal__hostname"]
+              target_label: "nodename"
+            - source_labels: ["__journal_syslog_identifier"]
+              target_label: "syslog_identifier"
 
 integrations:
   agent:
-    extra_labels:
-      cluster: aeroctf
-      namespace: aeroctf
-      container: grafana-agent
-      pod: grafana-agent-${HOSTNAME:-agent}
-
+  cadvisor_config:
   node_exporter:
-    rootfs_path: /
-    sysfs_path: /sys
-    procfs_path: /proc

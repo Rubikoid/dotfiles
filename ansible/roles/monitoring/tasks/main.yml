@@ -11,7 +11,7 @@
 
 - name: "Download agent"
   ansible.builtin.unarchive:
-    src: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/agent-linux-amd64.zip"
+    src: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-linux-amd64.zip"
     dest: "/usr/local/bin"
     remote_src: yes
   become: true

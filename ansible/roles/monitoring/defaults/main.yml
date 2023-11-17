@@ -1,7 +1,7 @@
 ---
 # defaults file for monitoring
 
-agent_version: "0.26.0"
+agent_version: "0.37.4"
 
 server_name: "server"
 grafana_admin_username: "admin"

@@ -76,24 +76,6 @@ services:
     networks:
       - core
 
-  cadvisor:
-    #image: google/cadvisor
-    image: gcr.io/google-containers/cadvisor:latest
-    command:
-      - "--raw_cgroup_prefix_whitelist=/docker/"
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    expose:
-      - "8080"
-    ports:
-      - "127.0.0.1:48080:8080"
-    restart: always
-    networks:
-      - core
-
 volumes:
   grafana-storage:
   mimir-storage:
